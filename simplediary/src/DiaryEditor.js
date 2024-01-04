@@ -1,29 +1,54 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
-const DiaryEditor = () => {
-  // 각 input의 공통된 state 묶어서 기본값 할당해주기
+// onCreate를 prop으로 전달받는다
+const DiaryEditor = ({ onCreate }) => {
+  // 상수에 함수 호출의 반환값을 저장, 담기
+  // dom요소에 접근할 수 있도록 해주는 reference객체를 상수에 담기
+  const authorInput = useRef();
+  const contentInput = useRef();
+
   const [state, setState] = useState({
-    // 기본값 할당
     author: "",
     content: "",
     emotion: 1,
   });
 
   const handleChangeState = (e) => {
-    // eventHandler 합치기
     setState({
-      // spread연산자 사용 => state객체가 가지고 있은 property 들을 펼쳐준다
-      // 기본적으로 원래의 값을 객체에 할당해줄 수 있다
       ...state,
-      [e.target.name]: e.target.value, // 괄호표기법
-      // spread연산자와 값을 바꾸고싶은 property의 순서를 꼭 지켜주어야
-      // 값이 원래의 값으로 덧씌워지지 않는다
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = () => {
-    console.log(state);
+    if (state.author.length < 1) {
+      //alert("작성자는 최소 1글자 이상 입력해주세요");
+      // 요즘 트렌드는 alert를 띄우기보다 focus를 준다
+
+      // dom요소를 선택하는 상수의 현재 가르키는 값을 current property로 불러와서 사용 가능
+      authorInput.current.focus();
+      return;
+    }
+
+    if (state.content.length < 5) {
+      //alert("일기 본문은 최소 5글자 이상 입력해주세요");
+      contentInput.current.focus();
+      return;
+    }
+
+    // console.log(state);
+
+    // prop으로 받은 onCreate 함수를 호출한다
+    onCreate(state.author, state.content, state.emotion);
     alert("저장 성공!");
+
+    // 일기를 저장했다면
+    // 일기 작성 form의 data를 초기화 해준다
+    setState({
+      author: "",
+      content: "",
+      emotion: 1,
+    });
   };
 
   return (
@@ -31,6 +56,8 @@ const DiaryEditor = () => {
       <h2>오늘의 일기</h2>
       <div>
         <input
+          // ref= 으로 맵핑
+          ref={authorInput}
           value={state.author}
           onChange={handleChangeState}
           name="author"
@@ -40,6 +67,7 @@ const DiaryEditor = () => {
       </div>
       <div>
         <textarea
+          ref={contentInput}
           value={state.content}
           onChange={handleChangeState}
           name="content"
