@@ -83,6 +83,7 @@ const App = () => {
 
   return (
     <div className="App">
+      {/* LifeCycle component rendering => import */}
       <LifeCycle />
       <DiaryEditor onCreate={onCreate} />
       {/* DiaryList로 onDelete함수를 내려줌 */}
