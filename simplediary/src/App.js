@@ -4,37 +4,7 @@ import DiaryEditor from "./DiaryEditor";
 import DiaryList from "./DiaryList";
 // import LifeCycle from "./LifeCycle";
 
-// const dummyList = [
-//   // 예시로 만드는 일기 데이터
-//   {
-//     id: 1,
-//     author: "이순신",
-//     content: "난중일기",
-//     emotion: 5,
-//     create_date: new Date().getTime(),
-//   },
-//   {
-//     id: 2,
-//     author: "김시민",
-//     content: "진주성",
-//     emotion: 1,
-//     create_date: new Date().getTime(),
-//   },
-//   {
-//     id: 3,
-//     author: "권율",
-//     content: "행주",
-//     emotion: 3,
-//     create_date: new Date().getTime(),
-//   },
-//   {
-//     id: 4,
-//     author: "유성룡",
-//     content: "한양",
-//     emotion: 2,
-//     create_date: new Date().getTime(),
-//   },
-// ];
+// https://jsonplaceholder.typicode.com/comments
 
 const App = () => {
   const [data, setData] = useState([]);
@@ -43,17 +13,26 @@ const App = () => {
   // 차례로 부여할 수 있게 해줌
   const dataId = useRef(0);
 
+  // asunc()를 사용하여 geData가 promise를 반환하도록 비동기 함수로 만들어줌
+  // getData() 생성
   const getData = async () => {
+    // 원하는 json 값들만 가져오기
     const res = await fetch(
       "https://jsonplaceholder.typicode.com/comments"
     ).then((res) => res.json());
 
+    // 가져온 json값의 요소들을 각 일기의 데이터 기초값으로 활용
+    // slice()를 활용하여 20개만 추려냄
+    // map()함수를 활용하여 데이터를 순회하면서 새로운 배열로 return하도록 해줌
     const initData = res.slice(0, 20).map((it) => {
       return {
         author: it.email,
         content: it.body,
+        // Math객채의 random()함수를 이용하여 무작위로 emotion 점수 부여
+        // floor()함수를 이용하여 소수점을 버리고 정수로 만들어 줌
         emotion: Math.floor(Math.random() * 5) + 1,
         created_date: new Date().getTime() + 1,
+        // 현재의 id값을 넣고나서 id값 1 증가
         id: dataId.current++,
       };
     });
@@ -61,6 +40,7 @@ const App = () => {
     setData(initData);
   };
 
+  // Mount 시점에 수행할 함수 호출
   useEffect(() => {
     setTimeout(() => {
       getData();
