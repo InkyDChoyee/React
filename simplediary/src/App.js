@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import "./App.css";
 import DiaryEditor from "./DiaryEditor";
 import DiaryList from "./DiaryList";
+import LifeCycle from "./LifeCycle";
 
 // const dummyList = [
 //   // 예시로 만드는 일기 데이터
@@ -82,6 +83,7 @@ const App = () => {
 
   return (
     <div className="App">
+      <LifeCycle />
       <DiaryEditor onCreate={onCreate} />
       {/* DiaryList로 onDelete함수를 내려줌 */}
       {/* DiaryItem의 부모인 DiaryList로 onEdit함수를 보내준다 */}
