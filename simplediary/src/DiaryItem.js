@@ -19,10 +19,8 @@ const DiaryItem = ({
   // isEdit의 값을 반대로 바꾸는 반전연산 함수
   // true 값이라면 수정중으로 간주해서 수정 폼을 띄우도록 한다
   const toggleIsEdit = () => setIsEdit(!isEdit);
-
   //
   const localContentInput = useRef();
-
   // textarea의 input을 handling할 status 생성
   // useState(content) localContent의 기본값을 원래의 content값으로 설정해서
   // 수정하기 버튼을 누르면 원래의 내용을 불러올 수 있도록 해준다
