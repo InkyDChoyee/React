@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 
 // LifeCycle Component의 자식 component인 UnMountTest component 생성
+// LifeCycle의 isVisible의 값이 true일때만 UnMount component가 화면에 rendering됨
 const UnMountTest = () => {
   useEffect(() => {
     console.log("Sub Component Mount");
     return () => {
+      // UnMount되는 시점에 실행되는 함수 를 return 시킴
       console.log("Sub Component Unmount");
     };
   }, []);
@@ -59,6 +61,8 @@ const LifeCycle = () => {
         />
       </div>
       <button onClick={toggle}>ON/OFF BUTTON</button>
+      {/* && = 단락회로평가를 이용하여 isVisible의 boolean 값에 따라
+            UnMountTest의 render 여부가 달라진다  */}
       {isVisible && <UnMountTest />}
     </div>
   );
