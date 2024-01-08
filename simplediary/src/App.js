@@ -5,6 +5,7 @@ import DiaryList from "./DiaryList";
 // import LifeCycle from "./LifeCycle";
 
 const App = () => {
+  // 처음 시작할 때의 data state배열은 빈 값
   const [data, setData] = useState([]);
 
   // useRef()를 사용하여 Id를 0번 idx부터 시작해서
@@ -13,6 +14,7 @@ const App = () => {
 
   // asunc()를 사용하여 geData가 promise를 반환하도록 비동기 함수로 만들어줌
   // getData() 생성
+  // data를 받아오면서 re-render가 일어남 -> 내부의 모든 함수들이 재생성, 실행
   const getData = async () => {
     // 원하는 json 값들만 가져오기
     const res = await fetch(
@@ -83,19 +85,38 @@ const App = () => {
     );
   };
 
-  const getDiaryAnalysis = useMemo(() => {
-    if (data.length === 0) {
-      return { goodcount: 0, badCount: 0, goodRatio: 0 };
-    }
-    console.log("일기 분석 시작");
+  // 최적화 함수
+  // => getDiaryAnalysis에 useMemo()함수를 활용하여
+  // return을 갖는 함수를 Memoization할 수 있다
+  const getDiaryAnalysis = useMemo(
+    // useMemo()함수로 Memoization하고싶은 함수의 코드를 감싸준다
+    // getDiaryAnalysis가 useMemo()함수를 호출한 결과값 처럼 바뀜
+    // 첫번째 인자로 callback함수를 호출하는 형태가 된다
+    () => {
+      if (data.length === 0) {
+        return { goodcount: 0, badCount: 0, goodRatio: 0 };
+      }
+      console.log("일기 분석 시작");
+      // 감정 점수에 따른 일기 분류
+      const goodCount = data.filter((it) => it.emotion >= 3).length;
+      const badCount = data.length - goodCount;
+      const goodRatio = (goodCount / data.length) * 100.0;
+      return { goodCount, badCount, goodRatio };
+    },
+    // getDiaryAnalysis함수를 호출한다고 하더라도
+    // 두번째 인자인 [data.length]가 변화하지 않는 이상
+    // 똑같은 return을 계산하지 않고 반환한다
+    [data.length]
+    // dependency array에 어떤 값이 변화할 때만 이 연산을 다시 수행 하도록 명시하게 되면
+    // 함수를 값처럼 사용을 해서 연산 최적화를 할 수 있다
+  );
 
-    const goodCount = data.filter((it) => it.emotion >= 3).length;
-    const badCount = data.length - goodCount;
-    const goodRatio = (goodCount / data.length) * 100.0;
-    return { goodCount, badCount, goodRatio };
-  }, [data.length]);
-
-  const { goodCount, badCount, goodRatio } = getDiaryAnalysis;
+  // re-rendering이 될 때 다시한번 실행이 된다
+  // useMemo()를 활용하여 함수를 최적화하게 되면 그 함수는 더이상 함수가 아니게 된다
+  // useMemo()가 callback함수의 return 값을 return하기 때문에
+  // getDiaryAnalysis는 useMemo로부터 값만을 return 받게 된다
+  // 그렇기 때문에 함수가 아닌 값으로써 사용하게 된다
+  const { goodCount, badCount, goodRatio } = getDiaryAnalysis; //getDiaryAnalysis() X
 
   return (
     <div className="App">
@@ -103,6 +124,7 @@ const App = () => {
       {/* <LifeCycle /> */}
       <DiaryEditor onCreate={onCreate} />
 
+      {/* 받은 데이터 rendering */}
       <div>전체 일기 : {data.length}</div>
       <div>기분 좋은 일기 개수 : {goodCount}</div>
       <div>기분 나쁜 일기 개수 : {badCount}</div>
