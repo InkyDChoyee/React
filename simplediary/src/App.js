@@ -1,10 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import "./App.css";
 import DiaryEditor from "./DiaryEditor";
 import DiaryList from "./DiaryList";
 // import LifeCycle from "./LifeCycle";
-
-// https://jsonplaceholder.typicode.com/comments
 
 const App = () => {
   const [data, setData] = useState([]);
@@ -85,14 +83,34 @@ const App = () => {
     );
   };
 
+  const getDiaryAnalysis = useMemo(() => {
+    if (data.length === 0) {
+      return { goodcount: 0, badCount: 0, goodRatio: 0 };
+    }
+    console.log("일기 분석 시작");
+
+    const goodCount = data.filter((it) => it.emotion >= 3).length;
+    const badCount = data.length - goodCount;
+    const goodRatio = (goodCount / data.length) * 100.0;
+    return { goodCount, badCount, goodRatio };
+  }, [data.length]);
+
+  const { goodCount, badCount, goodRatio } = getDiaryAnalysis;
+
   return (
     <div className="App">
       {/* LifeCycle component rendering => import */}
       {/* <LifeCycle /> */}
       <DiaryEditor onCreate={onCreate} />
-      {/* DiaryList로 onDelete함수를 내려줌 */}
+
+      <div>전체 일기 : {data.length}</div>
+      <div>기분 좋은 일기 개수 : {goodCount}</div>
+      <div>기분 나쁜 일기 개수 : {badCount}</div>
+      <div>기분 좋은 일기 비율 : {goodRatio}</div>
+
+      {/* DiaryList로 onRemove함수를 내려줌 */}
       {/* DiaryItem의 부모인 DiaryList로 onEdit함수를 보내준다 */}
-      <DiaryList onEdit={onEdit} diaryList={data} onRemove={onRemove} />
+      <DiaryList onEdit={onEdit} onRemove={onRemove} diaryList={data} />
     </div>
   );
 };

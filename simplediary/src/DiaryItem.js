@@ -7,10 +7,10 @@ import { useRef, useState } from "react";
 const DiaryItem = ({
   onRemove,
   onEdit,
+  id,
   author,
   content,
   emotion,
-  id,
   create_date,
 }) => {
   // 수정하기 버튼을 눌렀을 때 나오는 수정 폼 => status로 만들기
