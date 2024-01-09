@@ -2,6 +2,8 @@ import { useEffect, useRef, useState, useMemo } from "react";
 import "./App.css";
 import DiaryEditor from "./DiaryEditor";
 import DiaryList from "./DiaryList";
+import OptimizeTest from "./OptimizeTest";
+
 // import LifeCycle from "./LifeCycle";
 
 const App = () => {
@@ -120,6 +122,8 @@ const App = () => {
 
   return (
     <div className="App">
+      <OptimizeTest />
+
       {/* LifeCycle component rendering => import */}
       {/* <LifeCycle /> */}
       <DiaryEditor onCreate={onCreate} />
