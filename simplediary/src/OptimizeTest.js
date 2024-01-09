@@ -33,6 +33,7 @@ const CounterA = React.memo(({ count }) => {
   return <div>{count}</div>;
 });
 
+// 객체인 obj를 prop으로 받는다
 const CounterB = ({ obj }) => {
   useEffect(() => {
     console.log(`CountB Update - count : ${obj.count}`);
@@ -56,6 +57,7 @@ const OptimizeTest = () => {
   // const [text, setText] = useState("");
 
   // count state 생성
+  // state 의 값이 계속 1
   const [count, setCount] = useState(1);
   // object state 생성
   const [obj, setObj] = useState({
@@ -83,6 +85,7 @@ const OptimizeTest = () => {
       <div>
         <h2>Counter A</h2>
         <CounterA count={count} />
+        {/* state 의 값이 계속 1이기 때문에 re-rendering되지 않음 */}
         <button onClick={() => setCount(count)}>A Button</button>
       </div>
       <div>
