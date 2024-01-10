@@ -1,7 +1,12 @@
-import { useRef, useState } from "react";
+// useEffect를 import해줌
+import React, { useEffect, useRef, useState } from "react";
 
 // onCreate를 prop으로 전달받는다
+// React.memo()를 이용하여 component최적화를 해준다
+// onCreate 함수가 재생성되지 않아야만 DiaryEditor component를
+// React.memo()와 함께 최적화 할수 있다
 const DiaryEditor = ({ onCreate }) => {
+  console.log("DiaryEditor 렌더");
   // 상수에 함수 호출의 반환값을 저장, 담기
   // dom요소에 접근할 수 있도록 해주는 reference객체를 상수에 담기
   const authorInput = useRef();
@@ -95,4 +100,4 @@ const DiaryEditor = ({ onCreate }) => {
     </div>
   );
 };
-export default DiaryEditor;
+export default React.memo(DiaryEditor);

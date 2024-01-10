@@ -50,22 +50,41 @@ const App = () => {
   }, []);
 
   // 새로운 일기를 추가할 수 있는 함수
-  const onCreate = useCallback((author, content, emotion) => {
-    // 현재 시간
-    const created_date = new Date().getTime();
-    const newItem = {
-      author,
-      content,
-      emotion,
-      created_date,
-      id: dataId.current,
-    };
-    // Id를 증가시켜 순서대로 될 수 있도록 해줌
-    dataId.current += 1;
-    // newItem을 기존 데이터 앞에 오게 함으로써
-    // 제일 최근 일기가 제일 위쪽으로 오게 해준다
-    setData([newItem, ...data]);
-  }, []);
+  // useCallback() 으로 onCreate함수를 감싸준다
+  const onCreate = useCallback(
+    (author, content, emotion) => {
+      // 현재 시간
+      const created_date = new Date().getTime();
+      const newItem = {
+        author,
+        content,
+        emotion,
+        created_date,
+        id: dataId.current,
+      };
+      // Id를 증가시켜 순서대로 될 수 있도록 해줌
+      dataId.current += 1;
+      // newItem을 기존 데이터 앞에 오게 함으로써
+      // 제일 최근 일기가 제일 위쪽으로 오게 해준다
+      // setData([newItem, ...data]); // => 빈배열에 newItem 딱 하나만 추가한것처럼 되어버림
+      setData((data) => [newItem, ...data]); // => state 변화 함수에 함수를 전달하는 것 = 함수형 업데이트라고 한다
+    },
+    // useCallback을 활용하면서 [] depency array에 아무값도 넣어주지 않아서
+    // 추가된 데이터만 나오고 기존의 데이터가 날아가 버린다
+    // onCreate 함수는 component가 mount되는 시점에 한번만 생성이 되기 때문에
+    // 그 당시의 data state의 값이 [] 빈배열이기 때문에
+    // onCreate 함수가 마지막으로 생성됐을 때의 state가 빈배열이기 때문에 이런 현상이 발생
+    // []
+
+    // [data]
+    // onCreate가 재생성 되지 안도록 해주기 위해서 useCallback을 쓰는데
+    // data 값이 변경되면 onCreate 함수가 재생성 되고,
+    // 최신의 데이터를 받아오기 위해서는 onCreate가 최신의data 값을 가져와야 한다
+
+    // 위에서 함수형 업데이트를 해줌으로써
+    [] // 빈 배열을 인자로 사용하더라도 setData()의 인자에서
+    // 최신의 데이터를 참고 할수 있게 되어서 []를 비워놓아도 괜찮도록 해준다
+  );
 
   // app conponent에 onDelete 함수 생성
   const onRemove = (targetId) => {
