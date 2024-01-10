@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useCallback, useEffect, useRef, useState, useMemo } from "react";
 import "./App.css";
 import DiaryEditor from "./DiaryEditor";
 import DiaryList from "./DiaryList";
-import OptimizeTest from "./OptimizeTest";
 
+// import OptimizeTest from "./OptimizeTest";
 // import LifeCycle from "./LifeCycle";
 
 const App = () => {
@@ -50,7 +50,7 @@ const App = () => {
   }, []);
 
   // 새로운 일기를 추가할 수 있는 함수
-  const onCreate = (author, content, emotion) => {
+  const onCreate = useCallback((author, content, emotion) => {
     // 현재 시간
     const created_date = new Date().getTime();
     const newItem = {
@@ -65,7 +65,7 @@ const App = () => {
     // newItem을 기존 데이터 앞에 오게 함으로써
     // 제일 최근 일기가 제일 위쪽으로 오게 해준다
     setData([newItem, ...data]);
-  };
+  }, []);
 
   // app conponent에 onDelete 함수 생성
   const onRemove = (targetId) => {
@@ -123,7 +123,7 @@ const App = () => {
   return (
     <div className="App">
       {/* 가장 상단에 OptimizeTest rendering */}
-      <OptimizeTest />
+      {/* <OptimizeTest /> */}
 
       {/* LifeCycle component rendering => import */}
       {/* <LifeCycle /> */}
