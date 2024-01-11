@@ -89,16 +89,21 @@ const App = () => {
   // app conponent에 onDelete 함수 생성
   const onRemove = useCallback((targetId) => {
     // targetId를 제외한 나머지 id를 가진 배열의 요소들만으로 다시 배열 생성
-    const newDiaryList = data.filter((it) => it.id !== targetId);
+    // 데이터를 다루는 부분을 잘라내기 해서
+    //const newDiaryList = data.filter((it) => it.id !== targetId);
     // 새로운 배열로 리스트를 전달해준다
-    // setData(newDiaryList);
+    // 데이터를 전달해서 return하는 방식으로 바꿔준다
+    setData((data) => data.filter((it) => it.id !== targetId));
+    // setData함수에 전달되는 파라미터data에 최신 state가 전달되는 것이기 때문에
+    // 항상 최신 state를 이용하기 위해서는 함수형update의 인자부분의 data를 사용해야 한다
+    // return부분의 data를 사용해야 최신형 update를 활용할 수 있다
   }, []);
 
   // 수정할 targetId, newContent 두개의 매개변수를 받아온다
   const onEdit = useCallback((targetId, newContent) => {
     // setData 함수를 호추하고 map()함수를 적용해서
     // 일치하는 아이디를 찾아 해당 원소가 수정되도록 해준다
-    setData(
+    setData((data) =>
       data.map((it) =>
         // 일치하는 경우 content를 newContent 로 수정, 일치하지 않으면 그냥 it
         it.id === targetId ? { ...it, content: newContent } : it

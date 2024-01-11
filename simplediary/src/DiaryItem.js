@@ -16,7 +16,13 @@ const DiaryItem = ({
   emotion,
   create_date,
   // content를 제외한 나머지 data는 변하지 않음
+  // => onRemove, onEdit, content에 집중해서 최적화를 한다
 }) => {
+  // useEffect를 활용하여 어떤 요소들이 re-render되는지 확인
+  useEffect(() => {
+    console.log(`${id}번째 아이템 렌더!`);
+  });
+
   // 수정하기 버튼을 눌렀을 때 나오는 수정 폼 => status로 만들기
   // isEdit = boolean 값으로 수정 중인지 아닌지를 판단
   const [isEdit, setIsEdit] = useState(false);
@@ -99,4 +105,4 @@ const DiaryItem = ({
   );
 };
 
-export default DiaryItem;
+export default React.memo(DiaryItem);
