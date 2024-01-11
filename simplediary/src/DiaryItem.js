@@ -4,14 +4,18 @@ import { useRef, useState } from "react";
 
 // onDelete를 prop으로 받아준다
 // DiaryList에서 내려준 onEdit함수 prop을 받아서 호출해주면 된다
+// DiaryItem component가 prop으로 받고있는 data는 총 7개
 const DiaryItem = ({
+  // App component로 받은 함수 2개
   onRemove,
   onEdit,
+  // 나머지 5가지는 data
   id,
   author,
   content,
   emotion,
   create_date,
+  // content를 제외한 나머지 data는 변하지 않음
 }) => {
   // 수정하기 버튼을 눌렀을 때 나오는 수정 폼 => status로 만들기
   // isEdit = boolean 값으로 수정 중인지 아닌지를 판단

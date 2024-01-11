@@ -87,15 +87,15 @@ const App = () => {
   );
 
   // app conponent에 onDelete 함수 생성
-  const onRemove = (targetId) => {
+  const onRemove = useCallback((targetId) => {
     // targetId를 제외한 나머지 id를 가진 배열의 요소들만으로 다시 배열 생성
     const newDiaryList = data.filter((it) => it.id !== targetId);
     // 새로운 배열로 리스트를 전달해준다
-    setData(newDiaryList);
-  };
+    // setData(newDiaryList);
+  }, []);
 
   // 수정할 targetId, newContent 두개의 매개변수를 받아온다
-  const onEdit = (targetId, newContent) => {
+  const onEdit = useCallback((targetId, newContent) => {
     // setData 함수를 호추하고 map()함수를 적용해서
     // 일치하는 아이디를 찾아 해당 원소가 수정되도록 해준다
     setData(
@@ -104,7 +104,7 @@ const App = () => {
         it.id === targetId ? { ...it, content: newContent } : it
       )
     );
-  };
+  }, []);
 
   // 최적화 함수
   // => getDiaryAnalysis에 useMemo()함수를 활용하여
