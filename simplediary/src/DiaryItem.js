@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 
 const DiaryItem = ({
   onRemove,
@@ -7,16 +7,16 @@ const DiaryItem = ({
   author,
   content,
   emotion,
-  create_date,
+  created_date,
 }) => {
   useEffect(() => {
-    console.log(`${id}번째 아이템 렌더!`);
+    console.log(`${id}번 일기아이템 렌더`);
   });
 
-  const [isEdit, setIsEdit] = useState(false);
-  const toggleIsEdit = () => setIsEdit(!isEdit);
   const localContentInput = useRef();
   const [localContent, setLocalContent] = useState(content);
+  const [isEdit, setIsEdit] = useState(false);
+  const toggleIsEdit = () => setIsEdit(!isEdit);
 
   const handleClickRemove = () => {
     if (window.confirm(`${id}번째 일기를 정말 삭제하시겠습니까?`)) {
@@ -34,6 +34,7 @@ const DiaryItem = ({
       localContentInput.current.focus();
       return;
     }
+
     if (window.confirm(`${id}번 째 일기를 수정하시겠습니까?`)) {
       onEdit(id, localContent);
       toggleIsEdit();
@@ -44,10 +45,12 @@ const DiaryItem = ({
     <div className="DiaryItem">
       <div className="info">
         <span className="author_info">
-          | 작성자 : {author} | 감정점수 : {emotion} |
+          작성자 : {author} | 감정 : {emotion}
         </span>
         <br />
-        <span className="date">{new Date(create_date).toLocaleString()}</span>
+        <span className="date">
+          {new Date(created_date).toLocaleDateString()}
+        </span>
       </div>
       <div className="content">
         {isEdit ? (
@@ -74,5 +77,4 @@ const DiaryItem = ({
     </div>
   );
 };
-
-export default React.memo(DiaryItem);
+export default memo(DiaryItem);
