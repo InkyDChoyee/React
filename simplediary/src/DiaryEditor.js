@@ -1,6 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
+import { DiaryDispatchContext } from "./App";
 
-const DiaryEditor = React.memo(({ onCreate }) => {
+// onCreate prop은 더이상 받지 않는다
+// const DiaryEditor = React.memo(({ onCreate }) => {
+const DiaryEditor = React.memo(() => {
+  // 대신 DiaryDispatchContext에서 비구조화 할당으로 가져온다
+  const { onCreate } = useContext(DiaryDispatchContext);
+
   useEffect(() => {
     console.log("DiaryEditor 렌더");
   });
