@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { DiaryDispatchContext } from "./App";
 
 // onCreate prop은 더이상 받지 않는다
