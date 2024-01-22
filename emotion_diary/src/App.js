@@ -23,7 +23,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/new" element={<New />} />
           <Route path="/edit" element={<Edit />} />
-          <Route path="/diary" element={<Diary />} />
+          {/* :id = ':'을 사용하여 id라는 이름으로 값을 전달하겠다 라는 의미 */}
+          <Route path="/diary/:id" element={<Diary />} />
         </Routes>
         <RouteTest />
       </div>
