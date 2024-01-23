@@ -52,3 +52,37 @@ body {
   padding-left: 20px;
   padding-right: 20px;
 }
+
+/* MyButton style */
+.MyButton {
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+
+  font-size: 18px;
+
+  /* 버튼안에 있는 글자가 짤려서 2줄이 되지 않도록 방지해주는 속성 */
+  white-space: nowrap;
+
+  font-family: 'Nanum Pen Script';
+}
+
+.MyButton_default{
+  background-color: #ececec;
+  color: block;
+}
+
+.MyButton_positive{
+  background-color: #64c964;
+  color: white;
+}
+
+.MyButton_negative{
+  background-color: #fd565f;
+  color: white;
+}

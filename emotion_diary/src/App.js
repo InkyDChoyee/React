@@ -8,6 +8,9 @@ import New from "./pages/New";
 import Edit from "./pages/Edit";
 import Diary from "./pages/Diary";
 
+// Components
+import MyButton from "./components/MyButton.js";
+
 // import RouteTest from "./components/RouteTest.js";
 
 function App() {
@@ -23,12 +26,28 @@ function App() {
       <div className="App">
         <h2>App.js</h2>
 
+        {/* MyButton import */}
+        {/* positive */}
+        <MyButton
+          text={"버튼"}
+          onClick={() => alert("버튼 클릭")}
+          type={"positive"}
+        />
+        {/* negativ */}
+        <MyButton
+          text={"버튼"}
+          onClick={() => alert("버튼 클릭")}
+          type={"negative"}
+        />
+        {/* default */}
+        <MyButton text={"버튼"} onClick={() => alert("버튼 클릭")} />
+
         {/* process.env.PUBLIC_URL = public directory를 바로 쓸 수 있는 명령어 */}
-        <img src={process.env.PUBLIC_URL + "/assets/emotion1.png"} />
+        {/* <img src={process.env.PUBLIC_URL + "/assets/emotion1.png"} />
         <img src={process.env.PUBLIC_URL + "/assets/emotion2.png"} />
         <img src={process.env.PUBLIC_URL + "/assets/emotion3.png"} />
         <img src={process.env.PUBLIC_URL + "/assets/emotion4.png"} />
-        <img src={process.env.PUBLIC_URL + "/assets/emotion5.png"} />
+        <img src={process.env.PUBLIC_URL + "/assets/emotion5.png"} /> */}
 
         <Routes>
           {/* 페이지 경로 매핑 */}
