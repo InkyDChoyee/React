@@ -8,15 +8,28 @@ import New from "./pages/New";
 import Edit from "./pages/Edit";
 import Diary from "./pages/Diary";
 
-import RouteTest from "./components/RouteTest.js";
+// import RouteTest from "./components/RouteTest.js";
 
 function App() {
+  // process~URL이 작동하지 않는 경우
+  const env = process.env;
+  env.PUBLIC_URL = env.PUBLIC_URL || "";
+  // = env.PUBLIC_URL이 존재한다면 그냥 담고 아니라면 비워라
+
   return (
     // BrowserRouter로 감싸준다
     // = 감싸져있는 부분은 브라우저 url과 매핑될 수 있다
     <BrowserRouter>
       <div className="App">
         <h2>App.js</h2>
+
+        {/* process.env.PUBLIC_URL = public directory를 바로 쓸 수 있는 명령어 */}
+        <img src={process.env.PUBLIC_URL + "/assets/emotion1.png"} />
+        <img src={process.env.PUBLIC_URL + "/assets/emotion2.png"} />
+        <img src={process.env.PUBLIC_URL + "/assets/emotion3.png"} />
+        <img src={process.env.PUBLIC_URL + "/assets/emotion4.png"} />
+        <img src={process.env.PUBLIC_URL + "/assets/emotion5.png"} />
+
         <Routes>
           {/* 페이지 경로 매핑 */}
           {/* path="/"  == path="/index" */}
@@ -26,7 +39,7 @@ function App() {
           {/* :id = ':'을 사용하여 id라는 이름으로 값을 전달하겠다 라는 의미 */}
           <Route path="/diary/:id" element={<Diary />} />
         </Routes>
-        <RouteTest />
+        {/* <RouteTest /> */}
       </div>
     </BrowserRouter>
   );
