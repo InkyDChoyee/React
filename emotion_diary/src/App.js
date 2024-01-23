@@ -10,6 +10,7 @@ import Diary from "./pages/Diary";
 
 // Components
 import MyButton from "./components/MyButton.js";
+import MyHeader from "./components/MyHeader.js";
 
 // import RouteTest from "./components/RouteTest.js";
 
@@ -24,6 +25,23 @@ function App() {
     // = 감싸져있는 부분은 브라우저 url과 매핑될 수 있다
     <BrowserRouter>
       <div className="App">
+        <MyHeader
+          headText={"App"}
+          leftChild={
+            // MyHeader에 leftChild에 MyButton component를 전달해서 그대로 사용한다
+            <MyButton text={"왼쪽 버튼"} onClick={() => alert("왼쪽 클릭")} />
+          }
+          rightChild={
+            <MyButton
+              text={"오른쪽쪽 버튼"}
+              onClick={() => alert("오른쪽 클릭")}
+            />
+          }
+        />
+        {/* component 자체를 prop으로 전달하게 되면
+            onClick이나 text를 따로따로 전달할 필요가 없어지기 때문에
+            전달되는 prop의 갯수를 줄일 수 있는 좋은 방법이다 */}
+
         <h2>App.js</h2>
 
         {/* MyButton import */}
