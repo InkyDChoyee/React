@@ -5,7 +5,7 @@ import Home from "./pages/Home.js";
 import New from "./pages/New";
 import Edit from "./pages/Edit";
 import Diary from "./pages/Diary";
-import { useReducer, useRef } from "react";
+import React, { useReducer, useRef } from "react";
 
 const reducer = (state, action) => {
   let newState = [];
@@ -42,6 +42,11 @@ const reducer = (state, action) => {
   }
   return newState;
 };
+
+// context 생성 = State Context setting
+export const DiaryStateContext = React.createContext();
+// context 생성 = Dispatch Context setting
+export const DiaryDispathContext = React.createContext();
 
 function App() {
   const [data, dispatch] = useReducer(reducer, []);
@@ -84,16 +89,25 @@ function App() {
   };
 
   return (
-    <BrowserRouter>
-      <div className="App">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/new" element={<New />} />
-          <Route path="/edit" element={<Edit />} />
-          <Route path="/diary/:id" element={<Diary />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
+    // context의 data를 공급하기 위해서
+    // component 트리의 전체를 DiaryStateContext의 Provider로 감싸준다
+    // 최상위 문맥 : value={data}로 데이터 공급
+    <DiaryStateContext.Provider value={data}>
+      {/* 두번째 문맥 : data state를 변화시킬 수 있는
+          dispatch함수들을 객체로 공급 */}
+      <DiaryDispathContext.Provider value={{ onCreate, onEdit, onRemove }}>
+        <BrowserRouter>
+          <div className="App">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/new" element={<New />} />
+              <Route path="/edit" element={<Edit />} />
+              <Route path="/diary/:id" element={<Diary />} />
+            </Routes>
+          </div>
+        </BrowserRouter>
+      </DiaryDispathContext.Provider>
+    </DiaryStateContext.Provider>
   );
 }
 
