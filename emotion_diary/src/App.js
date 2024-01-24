@@ -5,43 +5,87 @@ import Home from "./pages/Home.js";
 import New from "./pages/New";
 import Edit from "./pages/Edit";
 import Diary from "./pages/Diary";
+import { useReducer, useRef } from "react";
 
-import MyButton from "./components/MyButton.js";
-import MyHeader from "./components/MyHeader.js";
+const reducer = (state, action) => {
+  let newState = [];
+  switch (action.type) {
+    case "INIT": {
+      return action.data;
+    }
+    case "CREATE": {
+      // const newItem = {
+      //   // reducer에서 받는 action 객체에서는
+      //   // spread 연산자를 이용하여 newItem 생성
+      //   ...action.data,
+      // };
+      // newState = [newItem, ...state];
+      // newItem 대신 action.data를 직접 넣어줌
+      newState = [action.data, ...state];
+      break;
+    }
+    case "REMOVE": {
+      // targetId를 필터링 한 나머지 요소들을 배열로 만들어서 newState를 바꾼다
+      newState = state.filter((it) => it.id !== action.targetId);
+      break;
+    }
+    case "EDIT": {
+      newState = state.map((it) =>
+        // 전달된 action.data의 id가 일치하는 요소를 찾아내서
+        // 그 일치하는 요소에 action.data를 전달하도록 한다
+        it.id === action.data.id ? { ...action.data } : it
+      );
+      break;
+    }
+    default:
+      return state;
+  }
+  return newState;
+};
 
 function App() {
-  const env = process.env;
-  env.PUBLIC_URL = env.PUBLIC_URL || "";
+  const [data, dispatch] = useReducer(reducer, []);
+
+  // dispatch 함수 만들기
+  const dataId = useRef(0);
+  // CREATE
+  const onCreate = (date, content, emotion) => {
+    // 시간, 내용, 감정 -> 데이터로 전달
+    dispatch({
+      // 이런식으로 데이터 전달
+      type: "CREATE",
+      date: {
+        id: dataId.current,
+        date: new Date(date).getTime(),
+        content,
+        emotion,
+      },
+    });
+    dataId.current += 1;
+  };
+  // REMOVE
+  const onRemove = (targetId) => {
+    dispatch({
+      type: "Remove",
+      targetId,
+    });
+  };
+  // EDIT
+  const onEdit = (targetId, date, content, emotion) => {
+    dispatch({
+      type: "EDIT",
+      date: {
+        id: targetId,
+        date: new Date(date).getTime(),
+        content,
+        emotion,
+      },
+    });
+  };
 
   return (
     <BrowserRouter>
       <div className="App">
-        <MyHeader
-          headText={"App"}
-          leftChild={
-            <MyButton text={"왼쪽 버튼"} onClick={() => alert("왼쪽 클릭")} />
-          }
-          rightChild={
-            <MyButton
-              text={"오른쪽쪽 버튼"}
-              onClick={() => alert("오른쪽 클릭")}
-            />
-          }
-        />
-        <h2>App.js</h2>
-
-        <MyButton
-          text={"버튼"}
-          onClick={() => alert("버튼 클릭")}
-          type={"positive"}
-        />
-        <MyButton
-          text={"버튼"}
-          onClick={() => alert("버튼 클릭")}
-          type={"negative"}
-        />
-        <MyButton text={"버튼"} onClick={() => alert("버튼 클릭")} />
-
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/new" element={<New />} />
