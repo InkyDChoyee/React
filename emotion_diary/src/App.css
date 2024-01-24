@@ -1,4 +1,3 @@
-/* font를 web 요청으로 가져옴 */
 @import url('https://fonts.googleapis.com/css2?family=Dokdo&family=Nanum+Pen+Script&display=swap');
 
 /* 공통 스타일 */
@@ -8,35 +7,17 @@ body {
   justify-content: center;
   align-items: center;
   font-family: 'Nanum Pen Script', cursive;
-  /* vh=viewport-height 현재 웹 스크린의 실제크기의 100%를 최소 높이로 갖겠다라는 의미 */
   min-height: 100vh;
   margin: 0px;
 }
 
-
-/* react의 App class 안에서만 적용되는 style
-.App {
-  padding: 20px;
-
-  // font-family속성은 제일 뒤에 있는 속성을 따른다
-  font-family: 'Nanum Pen Script', cursive;
-  // 같은 라인에서는 제일 왼쪽에 있는 폰트가 적용된다
-  font-family: 'Dokdo', system-ui;
-} */
-
-/* media query 기술 */
-/* min-width 화면이 650px 이상일 때에만 { } 안의 규칙이 적용된다 */
-/* = 반응형 웹을 작성할 수 있도록 도와주는 css 도구 */
 @media (min-width : 650px){
   .App {
     width: 640px;
   }
 }
 
-/* min-width 화면이 650px 이하일 때 */
 @media (max-width: 650px) {
-  /* App class component -> 90 viewport width = 90%
-     = 지금 화면의 90%만 차지하도록 해줌 */
   .App {
     width: 90vw;
   }
@@ -66,7 +47,6 @@ body {
 
   font-size: 18px;
 
-  /* 버튼안에 있는 글자가 짤려서 2줄이 되지 않도록 방지해주는 속성 */
   white-space: nowrap;
 
   font-family: 'Nanum Pen Script';

@@ -1,8 +1,6 @@
-import { useParams } from "react-router-dom"; // = custom hooks의 하나
+import { useParams } from "react-router-dom";
 
 const Diary = () => {
-  // id로 정의된 path variable을 id로 꺼내온다
-  // useParams() = id로 전달된 path variable을 모아서 객체로 전달하는 기능을 함
   const { id } = useParams();
   console.log(id);
 
