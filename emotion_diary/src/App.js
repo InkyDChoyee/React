@@ -73,7 +73,7 @@ const dummyData = [
 function App() {
   // const [data, dispatch] = useReducer(reducer, []);
   // 더미 데이터 활용
-  const [data, dispatch] = useReducer(reducer, [dummyData]);
+  const [data, dispatch] = useReducer(reducer, dummyData);
 
   // date 값 구하기
   console.log(new Date().getTime());
@@ -93,7 +93,7 @@ function App() {
   };
   const onRemove = (targetId) => {
     dispatch({
-      type: "Remove",
+      type: "REMOVE",
       targetId,
     });
   };
