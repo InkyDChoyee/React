@@ -36,8 +36,47 @@ const reducer = (state, action) => {
 export const DiaryStateContext = React.createContext();
 export const DiaryDispathContext = React.createContext();
 
+// 더미 데이터 생성
+const dummyData = [
+  {
+    id: 1,
+    emotion: 1,
+    content: "오늘의일기 1편",
+    date: 1706149902776,
+  },
+  {
+    id: 2,
+    emotion: 2,
+    content: "오늘의일기 2편",
+    date: 1706149902777,
+  },
+  {
+    id: 3,
+    emotion: 3,
+    content: "오늘의일기 3편",
+    date: 1706149902778,
+  },
+  {
+    id: 4,
+    emotion: 4,
+    content: "오늘의일기 4편",
+    date: 1706149902779,
+  },
+  {
+    id: 5,
+    emotion: 5,
+    content: "오늘의일기 5편",
+    date: 1706149902780,
+  },
+];
+
 function App() {
-  const [data, dispatch] = useReducer(reducer, []);
+  // const [data, dispatch] = useReducer(reducer, []);
+  // 더미 데이터 활용
+  const [data, dispatch] = useReducer(reducer, [dummyData]);
+
+  // date 값 구하기
+  console.log(new Date().getTime());
 
   const dataId = useRef(0);
   const onCreate = (date, content, emotion) => {

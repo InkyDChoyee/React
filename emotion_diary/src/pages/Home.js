@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { DiaryStateContext } from "../App";
 
 import MyHeader from "./../components/MyHeader";
 import MyButton from "./../components/MyButton";
 
 const Home = () => {
+  // Home component에서는
+  // diaryList라는 이름으로 useContext()를 활용해서
+  // DiaryStateContext를 통해서 일기 데이터를 공급 받음
+  const diaryList = useContext(DiaryStateContext);
+
   // header에 저장할 날짜 status 필요
   const [curDate, setCurDate] = useState(new Date());
   const headText = `${curDate.getFullYear()}년, ${curDate.getMonth() + 1}월`;
