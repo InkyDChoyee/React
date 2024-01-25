@@ -36,6 +36,31 @@ const DiaryList = ({ diaryList }) => {
   // 정렬 기준을 저장할 state 생성
   const [sortType, setSortType] = useState("lastest");
 
+  // 정렬 기능 구현
+  const getProcessedDiaryList = () => {
+    // 배열을 정렬하기 위해서 비교 함수를 만들어 준다
+    const compare = (a, b) => {
+      if (sortType === "latest") {
+        return parseInt(b.date) - parseInt(a.date);
+      } else {
+        return parseInt(a.date) - parseInt(b.date);
+      }
+    };
+
+    // diaryList.sort() => 원본 배열 자체를 재정렬 = 사용X
+    // JSON.stringify(diaryList) = diaryList를 JSON화 시킴
+    // JSON.parse() = 다시 배열로 복화시켜줌
+    // = 배열에서 문자열로 바뀌었다가 다시 배열로 바뀌면서
+    // copyList에 값만 들어가게 된다
+    // => 원본 배열을 건드리지 않으면서 배열을 정렬 가능하게 해줌
+    const copyList = JSON.parse(JSON.stringify(diaryList));
+
+    // 비교함수를 이용해 dairyList 정렬 = compare함수 전달
+    const sortedList = copyList.sort(compare);
+    // 정렬된 함수 반환
+    return sortedList;
+  };
+
   // prop으로 전달받은 diaryList를 map()으로 list rendering
   return (
     <div>
@@ -45,7 +70,10 @@ const DiaryList = ({ diaryList }) => {
         onChange={setSortType}
         optionList={sortOptionList}
       />
-      {diaryList.map((it) => (
+      {/* 정렬함수 이후로는 diaryList로 rendering을 하는것이 아니라
+           getProcessedDiaryList()함수를 실행한 결과값을 render하도록 해준다  */}
+      {/* {diaryList.map((it) => ( */}
+      {getProcessedDiaryList().map((it) => (
         <div key={it.id}>{it.content}</div>
       ))}
     </div>
